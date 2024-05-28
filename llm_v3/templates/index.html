@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Healthcare PDF Q&A App</title>
+</head>
+<body>
+    <h1>Healthcare PDF Q&A App</h1>
+    <form action="/process" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required><br><br>
+        <input style="width:700px" type="text" name="question" placeholder="Enter your question" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <h2> Motivation</h2>
+    <p>In healthcare, we're often plagued by loads and loads of documentation and definitions. This is a
+    proof-of-concept app that can take in PDFs and output the relevant healthcare codes
+    and definitions in a compact manner, making the job easier for coders. </p>
+    <h3>Examples</h3>
+    <p>PDF: https://www.amerihealthcaritasnh.com/assets/pdf/provider/resources/HEDIS-coding-guidelines.pdf</p>
+    <p>"Can you summarize the requirements for Appropriate Testing for Pharyngitis?"</p>
+    <p>"Can you summarize the requirements for Cardiac Rehabilitation?"</p>
+</body>
+</html>
