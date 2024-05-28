@@ -10,7 +10,7 @@ purely a proof of concept that was hacked in a day.*
 The landing page looks like this:
 ![image](img/landing.png)
 
-As an example, you can query "Ca you summarize the requirements for Cardia Rehabilitation?"
+As an example, you can query "Can you summarize the requirements for Cardia Rehabilitation?"
 The output might look like this (*note: outputs are likely to be different if you re-run it again*)
 ![image](img/cardiac_rehab_ouput.png)
 
