@@ -6,7 +6,7 @@
 # adult-and-child-health-care-quality-measures/adult-health-care-quality-measures/index.html
 ########################################################################################
 
-setwd("C:/Users/WPang/OneDrive - Apollo Medical Management/Projects/Medicaid")
+setwd("/Users/williampang/Desktop/innovation_team_interview/innovation_team_interview/medicaid_analysis")
 library(tidyverse)
 
 # Define Function
@@ -25,40 +25,40 @@ tidy_table <- function(file, measure = NULL){
 
 
 # Read in files
-file_2022 <- read_csv("2022_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
-file_2022 <- tidy_table(file_2022, measure = "BCS-AD")
+file_2022 <- read_csv("raw_data/2022_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+file_2022 <- tidy_table(file_2022)
 file_2022$ffy <- "2022"
 
-file_2021 <- read_csv("2021_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
-file_2021 <- tidy_table(file_2021, measure = "BCS-AD")
+file_2021 <- read_csv("raw_data/2021_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+file_2021 <- tidy_table(file_2021)
 file_2021$ffy <- "2021"
 
-file_2020 <- read_csv("2020_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
-file_2020 <- tidy_table(file_2020, measure = "BCS-AD")
+file_2020 <- read_csv("raw_data/2020_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+file_2020 <- tidy_table(file_2020)
 file_2020$ffy <- "2020"
 
-file_2019 <- read_csv("2019_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
-file_2019 <- tidy_table(file_2019, measure = "BCS-AD")
+file_2019 <- read_csv("raw_data/2019_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+file_2019 <- tidy_table(file_2019)
 file_2019$ffy <- "2019"
 
-file_2018 <- read_csv("2018_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
-file_2018 <- tidy_table(file_2018, measure = "BCS-AD")
+file_2018 <- read_csv("raw_data/2018_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+file_2018 <- tidy_table(file_2018)
 file_2018$ffy <- "2018"
 
-file_2017 <- read_csv("2017_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
-file_2017 <- tidy_table(file_2017, measure = "BCS-AD")
+file_2017 <- read_csv("raw_data/2017_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+file_2017 <- tidy_table(file_2017)
 file_2017$ffy <- "2017"
 
-file_2016 <- read_csv("2016_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
-file_2016 <- tidy_table(file_2016, measure = "BCS-AD")
+file_2016 <- read_csv("raw_data/2016_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+file_2016 <- tidy_table(file_2016)
 file_2016$ffy <- "2016"
 
-file_2015 <- read_csv("2015_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
-file_2015 <- tidy_table(file_2015, measure = "BCS-AD")
+file_2015 <- read_csv("raw_data/2015_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+file_2015 <- tidy_table(file_2015)
 file_2015$ffy <- "2015"
 
-file_2014 <- read_csv("2014_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
-file_2014 <- tidy_table(file_2014, measure = "BCS-AD")
+file_2014 <- read_csv("raw_data/2014_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+file_2014 <- tidy_table(file_2014)
 file_2014$ffy <- "2014"
 
 df_combined <- rbind(file_2014, file_2015, file_2016, file_2017, file_2018, file_2019,
