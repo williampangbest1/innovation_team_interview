@@ -6,7 +6,7 @@ library(broom)
 setwd("/Users/williampang/Desktop/innovation_team_interview/medicaid_analysis")
 
 # Grab quality_measures dataset
-quality_measures <- read_csv("data/2014_to_2022_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+quality_measures <- read_csv("raw_data/2014_to_2022_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
 # Remove weird coding
 quality_measures <- quality_measures[quality_measures$state_rate != "NR", ]
 quality_measures <- quality_measures[quality_measures$state_rate != "DS", ]
