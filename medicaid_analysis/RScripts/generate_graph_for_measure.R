@@ -7,13 +7,14 @@ setwd("/Users/williampang/Desktop/innovation_team_interview/medicaid_analysis")
 
 ########## SET VARIABLES ########## 
 measure_name = 'BCS-AD'
-new_name = "Breast Cancer Screening"
+save_graph = FALSE
 ####################################   
 
-generate_graph <- function(measure_name, new_name){
+generate_graph <- function(measure_name){
   # Grab BCS Dataset
-  allQualityData <- read_csv("raw_data/2014_to_2022_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+  allQualityData <- read_csv("2014_to_2022_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
   measure <- allQualityData[allQualityData$measure_abbreviation == measure_name, ]
+  completeMeasureName <- unique(measure$measure_name)
   
   # Process measure Datset
   measure <- mutate(measure, reporting_date = as.character(ffy + 1))
@@ -46,17 +47,28 @@ generate_graph <- function(measure_name, new_name){
   measure$postcovid <- as.factor(measure$postcovid)
   
   p <- ggplot(measure, aes(x = reporting_date, y = state_rate, color = postcovid)) +
-    ggtitle(paste0(new_name, " Trends by State")) +
+    ggtitle(paste0(completeMeasureName, " Trends by State")) +
     geom_point(color = 'black') +
     geom_smooth(method = 'lm') + 
     facet_wrap(~state, ncol = 5) + 
-    labs(x = "Year", y = paste0(measure_name, "State Rate"))
+    labs(x = "Year", y = paste0(completeMeasureName, " State Rate"))
   
   return(p)
 }
 
+##### MAIN ######
+
 # Generate graph and save
+if (save_graph == TRUE){
 png(filename = paste0("img/", measure_name, "_Trends_By_State.png"))
-p <- generate_graph(measure_name, new_name)
+p <- generate_graph(measure_name)
 p
 dev.off()  # Close the device
+}else {
+  p <- generate_graph(measure_name)
+  p
+}
+
+###### DEBUGGING #####
+allQualityData <- read_csv("2014_to_2022_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
+measure <- allQualityData[allQualityData$measure_abbreviation == measure_name, ]
