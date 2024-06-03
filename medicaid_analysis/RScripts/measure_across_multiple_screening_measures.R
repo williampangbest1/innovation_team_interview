@@ -6,7 +6,7 @@ library(broom)
 setwd("/Users/williampang/Desktop/innovation_team_interview/medicaid_analysis")
 
 ###### Define Measures to Run ####
-measure_names <- c("BCS-AD")
+measure_names <- c("BCS-AD", "CCS-AD", "PPC-AD", "CHL-AD")
 ##################################
 
 # Grab quality_measures dataset
@@ -20,6 +20,22 @@ store <- data.frame()
 for (measure in measure_names){
   quality_measures_subset <- quality_measures[quality_measures$measure_abbreviation == measure, ]
   
+  ###
+  # QA: Check to make sure each state only has one unique year 
+  qaDistinctYear <- quality_measures_subset %>%
+    group_by(state) %>%
+    summarize(unique_years = n_distinct(ffy),
+              row_count = n())
+  
+  different_rows <- qaDistinctYear %>% filter(unique_years != row_count)
+  if (nrow(different_rows) == 0) {
+    print("No rows with duplicate years.")
+  }
+  else{
+  stop("Detected rows with duplicate years")
+  }
+  ###
+  
   models <- quality_measures_subset %>%
     group_by(state) %>%
     do(model = lm(state_rate ~ reporting_date + postcovid + reporting_date * postcovid, data = .))
@@ -27,8 +43,8 @@ for (measure in measure_names){
   # Extract coefficients from the models
   coefficients <- models %>%
     summarise(state = first(state),
-              beta1 = coef(model)[2], # reporting_date_coef
-              beta3 = ifelse(length(coef(model)) > 3, coef(model)[4], NA)) # interaction_coef
+              beta1 = coef(model)[2], 
+              beta3 = ifelse(length(coef(model)) > 3, coef(model)[4], NA)) 
   
   # Remove rows with nulls and rank
   coefficients <- coefficients[!is.na(coefficients$beta3), ]
@@ -56,11 +72,13 @@ for (measure in measure_names){
 beta3_rank_measure_names <- paste0(measure_names, "_beta3rank")
 store$mean_rank <- rowMeans(store[beta3_rank_measure_names], na.rm = TRUE)
 
-# Remove states with two small N
-store <- store[store$state != "Delaware", ]
-store <- store[store$state != "Maryland", ]
-store <- store[store$state != "West Virginia", ]
-store <- store[store$state != "Georgia", ]
+# Remove states with more than 1 measure being NA
+na_count <- data.frame(store$state, cnt = rowSums(is.na(store)))
+na_count <- na_count %>% filter(cnt > 3)
+states_to_remove <- na_count$store.state
+store <- store %>%
+  filter(!state %in% states_to_remove)
+
 
 # Rank average of ranks
 store$final_ranking <- rank(store$mean_rank)
