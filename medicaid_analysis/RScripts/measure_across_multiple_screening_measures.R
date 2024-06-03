@@ -16,6 +16,7 @@ quality_measures <- quality_measures[quality_measures$state_rate != "NR", ]
 quality_measures <- quality_measures[quality_measures$state_rate != "DS", ]
 
 iteration = 1
+store <- data.frame()
 for (measure in measure_names){
   quality_measures_subset <- quality_measures[quality_measures$measure_abbreviation == measure, ]
   
@@ -26,18 +27,19 @@ for (measure in measure_names){
   # Extract coefficients from the models
   coefficients <- models %>%
     summarise(state = first(state),
-              intercept = coef(model)[1], # reporting_date_coef
-              delta = ifelse(length(coef(model)) > 3, coef(model)[4], NA)) # interaction_coef
+              beta1 = coef(model)[2], # reporting_date_coef
+              beta3 = ifelse(length(coef(model)) > 3, coef(model)[4], NA)) # interaction_coef
   
   # Remove rows with nulls and rank
-  coefficients <- coefficients[!is.na(coefficients$delta), ]
-  coefficients$rank <- rank(-coefficients$delta)
+  coefficients <- coefficients[!is.na(coefficients$beta3), ]
+  coefficients$beta3rank <- rank(-coefficients$beta3)
   
   # Rename
-  delta_meaure <- paste0(measure, "_delta")
-  rank_measure <- paste0(measure)
+  beta1 <- paste0(measure, "_beta1")
+  beta3 <- paste0(measure, "_beta3")
+  beta3rank <- paste0(measure, "_beta3rank")
   
-  colnames(coefficients) <- c("state", delta_meaure, rank_measure)
+  colnames(coefficients) <- c("state", beta1, beta3, beta3rank)
   
   if (iteration == 1){
     store <- coefficients
