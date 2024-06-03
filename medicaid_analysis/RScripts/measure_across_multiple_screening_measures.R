@@ -48,7 +48,7 @@ for (measure in measure_names){
   
   # Remove rows with nulls and rank
   coefficients <- coefficients[!is.na(coefficients$beta3), ]
-  coefficients$beta3rank <- rank(-coefficients$beta3)
+  coefficients$beta3rank <- rank(coefficients$beta3)
   
   # Rename
   beta1 <- paste0(measure, "_beta1")
@@ -81,6 +81,6 @@ store <- store %>%
 
 
 # Rank average of ranks
-store$final_ranking <- rank(-store$mean_rank)
+store$final_ranking <- rank(store$mean_rank)
 
 write.csv(store, "quality_measures_prepostcovid_rank.csv", row.names = FALSE)
