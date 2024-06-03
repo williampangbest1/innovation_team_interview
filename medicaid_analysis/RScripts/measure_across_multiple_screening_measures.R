@@ -81,6 +81,6 @@ store <- store %>%
 
 
 # Rank average of ranks
-store$final_ranking <- rank(store$mean_rank)
+store$final_ranking <- rank(-store$mean_rank)
 
 write.csv(store, "quality_measures_prepostcovid_rank.csv", row.names = FALSE)
