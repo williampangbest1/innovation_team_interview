@@ -53,7 +53,8 @@ for (measure in measure_names){
 }
   
 # Average
-store$mean_rank <- rowMeans(store[measure_names], na.rm = TRUE)
+beta3_rank_measure_names <- paste0(measure_names, "_beta3rank")
+store$mean_rank <- rowMeans(store[beta3_rank_measure_names], na.rm = TRUE)
 
 # Remove states with two small N
 store <- store[store$state != "Delaware", ]
@@ -64,4 +65,4 @@ store <- store[store$state != "Georgia", ]
 # Rank average of ranks
 store$final_ranking <- rank(store$mean_rank)
 
-write.csv(store, "quality_measures_prepostcovid_rank.csv", row.names = TRUE)
+write.csv(store, "quality_measures_prepostcovid_rank.csv", row.names = FALSE)
