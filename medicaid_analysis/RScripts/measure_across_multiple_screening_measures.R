@@ -5,21 +5,19 @@ library(broom)
 # Set Working Directory
 setwd("/Users/williampang/Desktop/innovation_team_interview/medicaid_analysis")
 
+###### Define Measures to Run ####
+measure_names <- c("BCS-AD")
+##################################
+
 # Grab quality_measures dataset
 quality_measures <- read_csv("2014_to_2022_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv")
-# Remove weird coding
+# Remove state rates with weird coding
 quality_measures <- quality_measures[quality_measures$state_rate != "NR", ]
 quality_measures <- quality_measures[quality_measures$state_rate != "DS", ]
-
-measure_names <- c("CHL-AD", "FUH-AD", "PPC-AD", "SSD-AD", "SAA-AD", "BCS-AD")
 
 iteration = 1
 for (measure in measure_names){
   quality_measures_subset <- quality_measures[quality_measures$measure_abbreviation == measure, ]
-  
-  # Add indicator variable to distinguish between pre-covid and post-covid
-  quality_measures_subset <- quality_measures_subset %>%
-    mutate(postcovid = ifelse(format(reporting_date, "%Y") > 2020, 1, 0))
   
   models <- quality_measures_subset %>%
     group_by(state) %>%
@@ -28,7 +26,7 @@ for (measure in measure_names){
   # Extract coefficients from the models
   coefficients <- models %>%
     summarise(state = first(state),
-              # pre_covid_slope = coef(model)[2], # reporting_date_coef
+              intercept = coef(model)[1], # reporting_date_coef
               delta = ifelse(length(coef(model)) > 3, coef(model)[4], NA)) # interaction_coef
   
   # Remove rows with nulls and rank

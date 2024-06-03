@@ -70,14 +70,10 @@ df_combined$reporting_date <- paste0(df_combined$reporting_date, "-06-01")
 df_combined$reporting_date <- as.Date(df_combined$reporting_date)
 
 # Create boolean flag as before or after pandemic
-df_combined$pandemic <- df_combined$reporting_date >= as.Date('2021-06-01')
+df_combined$postcovid <- ifelse(df_combined$reporting_date >= as.Date('2021-06-01'), 1, 0)
 
 # Rename columns
-colnames(df_combined) <- c("state", "population", "measure_name", "measure_abbreviation", "state_rate", "ffy", "reporting_date", "pandemic")
+colnames(df_combined) <- c("state", "population", "measure_name", "measure_abbreviation", "state_rate", "ffy", "reporting_date", "postcovid")
 
 # Write to CSV
 write.csv(df_combined, "2014_to_2022_Child_and_Adult_Health_Care_Quality_Measures_Quality.csv", row.names = FALSE)
-
-##### TESTING
-unique_names <- unique(df_combined$measure_abbreviation)
-print(unique_names)
