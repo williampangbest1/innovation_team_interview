@@ -6,7 +6,8 @@ library(broom)
 setwd("/Users/williampang/Desktop/innovation_team_interview/medicaid_analysis")
 
 ###### Define Measures to Run ####
-measure_names <- c("BCS-AD", "CCS-AD", "PPC-AD", "CHL-AD")
+# measure_names <- c("BCS-AD", "CCS-AD", "PPC-AD", "CHL-AD")
+measure_names <- c("BCS-AD")
 ##################################
 
 # Grab quality_measures dataset
@@ -74,7 +75,7 @@ store$mean_rank <- rowMeans(store[beta3_rank_measure_names], na.rm = TRUE)
 
 # Remove states with more than 1 measure being NA
 na_count <- data.frame(store$state, cnt = rowSums(is.na(store)))
-na_count <- na_count %>% filter(cnt > 3)
+na_count <- na_count %>% filter(cnt > 4)
 states_to_remove <- na_count$store.state
 store <- store %>%
   filter(!state %in% states_to_remove)
