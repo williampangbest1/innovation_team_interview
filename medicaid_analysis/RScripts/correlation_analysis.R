@@ -56,3 +56,26 @@ result <- cor.test(medicaid_renewal_ranking$final_ranking,
                    medicaid_renewal_ranking$RenewalRate, method = "spearman")
 print(result$estimate)
 print(result$p.value)
+
+### Analysis 4: Correlate between Ranking and COVID-19 Mortality Rate by State
+mortality_rate_raw <- read_csv("covid_19_mortality_rate_by_state_2020_to_2022.csv")
+mortality_rate_raw <- mortality_rate_raw[, c("STATE", "YEAR", "RATE")]
+
+print("***Analaysis 4 ***")
+
+for (year in c("2020", "2021", "2022")){
+  mortality_rate  <- subset(mortality_rate_raw, STATE %in% quality_measures_ranking$state)
+  mortality_rate <- subset(mortality_rate, YEAR == year)
+  mortality_rate$mortality_rate_rank <- rank(mortality_rate$RATE)
+
+  mortality_rate_ranking <- inner_join(quality_measures_ranking,
+                                       mortality_rate,
+                                       by = c("state" = "STATE"))
+  
+  print(paste0(year, " COVID Morality Rate"))
+  result <- cor.test(mortality_rate_ranking$final_ranking,
+                     mortality_rate_ranking$RATE, method = "spearman")
+  print(result$estimate)
+  print(result$p.value)
+}
+

@@ -24,3 +24,6 @@ state_map <- setNames(state_names, state_abbreviations)
 
 covid_19_mortality_rate_by_state <- covid_19_mortality_rate_by_state %>%
   mutate(STATE = state_map[STATE])
+
+# Write to CSV
+write.csv(covid_19_mortality_rate_by_state, "covid_19_mortality_rate_by_state_2020_to_2022.csv", row.names = FALSE)

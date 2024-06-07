@@ -6,8 +6,7 @@ library(broom)
 setwd("/Users/williampang/Desktop/innovation_team_interview/medicaid_analysis")
 
 ###### Define Measures to Run ####
-# measure_names <- c("BCS-AD", "CCS-AD", "PPC-AD", "CHL-AD")
-measure_names <- c("BCS-AD")
+measure_names <- c("BCS-AD", "CCS-AD", "PPC-AD", "CHL-AD")
 ##################################
 
 # Grab quality_measures dataset
